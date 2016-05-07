@@ -32,7 +32,7 @@ public class MainTopology {
 		
 		Config conf = new Config();
 	
-		//关闭storm 的 ack 机制
+		//关闭storm 的 ack 机制 , Config.TOPOLOGY_ACKER_EXECUTORS=0
 		//conf.setNumAckers(0);
 
 		conf.setDebug(true);
