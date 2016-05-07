@@ -1,8 +1,8 @@
-package com.hyman.storm.example;
+package com.storm.example;
 
 import java.util.Map;
 
-import com.hyman.storm.utils.Utils;
+import com.storm.utils.Utils;
 
 import backtype.storm.spout.SpoutOutputCollector;
 import backtype.storm.task.TopologyContext;

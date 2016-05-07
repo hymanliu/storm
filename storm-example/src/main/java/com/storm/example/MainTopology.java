@@ -1,6 +1,6 @@
-package com.hyman.storm.example;
+package com.storm.example;
 
-import com.hyman.storm.utils.Utils;
+import com.storm.utils.Utils;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;

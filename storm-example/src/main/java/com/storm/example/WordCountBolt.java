@@ -1,4 +1,4 @@
-package com.hyman.storm.example;
+package com.storm.example;
 
 import java.util.HashMap;
 import java.util.Map;

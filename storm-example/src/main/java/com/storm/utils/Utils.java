@@ -1,4 +1,4 @@
-package com.hyman.storm.utils;
+package com.storm.utils;
 
 public class Utils {
 
