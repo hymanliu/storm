@@ -31,7 +31,10 @@ public class MainTopology {
 		builder.setBolt(REPORT_BOLT_ID, reportBolt).allGrouping(COUNT_BOLT_ID);
 		
 		Config conf = new Config();
-		
+	
+		//关闭storm 的 ack 机制
+		//conf.setNumAckers(0);
+
 		conf.setDebug(true);
 		if(args!=null && args.length > 0) {
 			conf.setNumWorkers(3);
