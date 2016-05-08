@@ -26,7 +26,7 @@ public class FileWriterBolt  extends BaseRichBolt{// implements IRichBolt {
 	public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
 		this.collector = collector;
 		try {
-			writer = new FileWriter("e://reliability.txt");
+			writer = new FileWriter("e://reliability.txt"+this);
 		} catch (IOException e) {
 		}
 	}

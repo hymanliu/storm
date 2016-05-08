@@ -49,7 +49,7 @@ public class MessageSpout extends BaseRichSpout {
 	public void nextTuple() {
 		if(index < lines.length){
 			String l = lines[index];
-			collector.emit(new Values(l), index);
+			collector.emit(new Values(l), "msgid-"+index);
 			index++;
 		}
 	}
@@ -63,7 +63,8 @@ public class MessageSpout extends BaseRichSpout {
 	public void fail(Object msgId) {
 		System.out.println("error : message sends unsuccessfully (msgId = " + msgId +")");
 		System.out.println("resending...");
-		collector.emit(new Values(lines[(Integer) msgId]), msgId);
+		String[] arr = msgId.toString().split("-");
+		collector.emit(new Values(lines[Integer.parseInt(arr[1])]), msgId);
 		System.out.println("resend successfully");
 	}
 
