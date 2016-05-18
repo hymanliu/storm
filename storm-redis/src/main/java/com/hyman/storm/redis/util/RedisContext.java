@@ -1,56 +1,42 @@
 package com.hyman.storm.redis.util;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.Jedis;
 
 public class RedisContext {
-	
-	private static RedisContext redisContext;
-	private Map<Object,JedisCluster> context;
-	private Set<HostAndPort> jedisClusterNodes;
 
-	private Set<HostAndPort> getRedisConfig(){
-		Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
-		String redisNodes = ApplicationContext.getConfig("redis.connect");
-		String[] arr = redisNodes.split(",");
-		for(String hostport: arr){
-			String[] hpArr = hostport.split(":");
-			if(hpArr.length==2){
-				jedisClusterNodes.add(new HostAndPort(hpArr[0], Integer.parseInt(hpArr[1])));
-			}
-		}
-    	return jedisClusterNodes;
-	}
+	private static RedisContext redisContext;
+	private Map<Object,Jedis> connectMap;
+	private String redishost;
+	private int redisport=6379;
+
 	
 	private RedisContext(){
-		context = new HashMap<Object,JedisCluster>();
-		jedisClusterNodes = getRedisConfig();
+		connectMap = new HashMap<Object,Jedis>();
+		String redisNode = ApplicationContext.getConfig("redis.connect");
+		String[] hostAndPort = redisNode.split(":");
+		redishost = hostAndPort[0];
+		if(hostAndPort.length>1){
+			redisport = Integer.parseInt(hostAndPort[1]);
+		}
 	}
 	
 	
-	public JedisCluster getJedisCluster(Object key){
-		JedisCluster val = context.get(key);
+	public Jedis getJedis(Object key){
+		Jedis val = connectMap.get(key);
 		if(val==null){
-			JedisCluster jc = new JedisCluster(jedisClusterNodes);
-			context.put(key, jc);
+			Jedis jc = new Jedis(redishost,redisport);
+			connectMap.put(key, jc);
 		}
-		return context.get(key);
+		return connectMap.get(key);
 	}
 	
 	public void releaseRedisConnector(Object key){
-		JedisCluster jc = context.remove(key);
+		Jedis jc = connectMap.remove(key);
 		if(jc!=null){
-			try {
-				jc.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			jc.close();
 		}
 	}
 	
@@ -62,6 +48,5 @@ public class RedisContext {
 		}
 		return redisContext;
 	}
-	
 	
 }
