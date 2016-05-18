@@ -10,7 +10,7 @@ import org.apache.storm.kafka.KafkaSpout;
 import org.apache.storm.topology.TopologyBuilder;
 import org.apache.storm.utils.Utils;
 
-public class MainTopology {
+public class CountTopology {
 
 	public static void main(String[] args) throws Exception {
 

@@ -9,9 +9,9 @@ import java.util.Set;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 
-public class RedisContext {
+public class RedisClusterContext {
 	
-	private static RedisContext redisContext;
+	private static RedisClusterContext redisClusterContext;
 	private Map<Object,JedisCluster> context;
 	private Set<HostAndPort> jedisClusterNodes;
 
@@ -28,7 +28,7 @@ public class RedisContext {
     	return jedisClusterNodes;
 	}
 	
-	private RedisContext(){
+	private RedisClusterContext(){
 		context = new HashMap<Object,JedisCluster>();
 		jedisClusterNodes = getRedisConfig();
 	}
@@ -54,13 +54,13 @@ public class RedisContext {
 		}
 	}
 	
-	public static RedisContext getInstance(){
-		synchronized(RedisContext.class){
-			if(redisContext ==null){
-				redisContext = new RedisContext();
+	public static RedisClusterContext getInstance(){
+		synchronized(RedisClusterContext.class){
+			if(redisClusterContext==null){
+				redisClusterContext = new RedisClusterContext();
 			}
 		}
-		return redisContext;
+		return redisClusterContext;
 	}
 	
 	

@@ -11,18 +11,19 @@ import org.apache.storm.tuple.Tuple;
 
 import com.hyman.storm.redis.util.RedisContext;
 
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
 
 public class CounterBolt extends BaseBasicBolt {
 	
-	private JedisCluster jedis = null;
+	private Jedis jedis = null;
 	
 	private static final long serialVersionUID = -5508421065181891596L;
 	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void prepare(Map stormConf, TopologyContext context) {
-		jedis = RedisContext.getInstance().getJedisCluster(this);
+		jedis = RedisContext.getInstance().getJedis(this);
 	}
 
 	@Override
