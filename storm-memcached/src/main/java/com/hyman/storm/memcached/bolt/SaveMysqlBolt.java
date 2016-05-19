@@ -48,7 +48,7 @@ public class SaveMysqlBolt extends BaseBasicBolt {
 		String youhui = (String) list.get(3);
 		String sendpay = (String) list.get(4);
 		
-		saveCounterMember(memberid,sendpay,totalprice,youhui);//��¼�����û���
+		saveCounterMember(memberid,sendpay,totalprice,youhui);
 		
 
 	}

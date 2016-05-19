@@ -13,12 +13,10 @@ import kafka.producer.ProducerConfig;
 public class kafkaProducer extends Thread{
 
 	private String topic;
-	
 	public kafkaProducer(String topic){
 		super();
 		this.topic = topic;
 	}
-	
 	
 	@Override
 	public void run() {
@@ -39,8 +37,6 @@ public class kafkaProducer extends Thread{
 	private Producer<String, String> createProducer() {
 		
 		Properties props = new Properties();
-		
-		
 		props.put("zookeeper.connect", ApplicationContext.getConfig("kafka.zookeeper.connect"));
 		props.put("serializer.class", "kafka.serializer.StringEncoder");
 		props.put("producer.type", "async");

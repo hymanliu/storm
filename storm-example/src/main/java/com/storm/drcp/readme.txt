@@ -12,3 +12,4 @@ storm drpc >> ../logs/drpc.log 2>&1 &
 
 
 
+storm jar /opt/share/jar/storm-example.jar com.storm.drcp.BasicDRPCTopology drpc-demo

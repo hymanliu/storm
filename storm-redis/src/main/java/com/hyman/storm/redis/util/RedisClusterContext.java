@@ -12,12 +12,12 @@ import redis.clients.jedis.JedisCluster;
 public class RedisClusterContext {
 	
 	private static RedisClusterContext redisClusterContext;
-	private Map<Object,JedisCluster> context;
+	private Map<Object,JedisCluster> connectMap;
 	private Set<HostAndPort> jedisClusterNodes;
 
 	private Set<HostAndPort> getRedisConfig(){
 		Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
-		String redisNodes = ApplicationContext.getConfig("redis.connect");
+		String redisNodes = ApplicationContext.getConfig("redis.cluster.connect");
 		String[] arr = redisNodes.split(",");
 		for(String hostport: arr){
 			String[] hpArr = hostport.split(":");
@@ -29,22 +29,22 @@ public class RedisClusterContext {
 	}
 	
 	private RedisClusterContext(){
-		context = new HashMap<Object,JedisCluster>();
+		connectMap = new HashMap<Object,JedisCluster>();
 		jedisClusterNodes = getRedisConfig();
 	}
 	
 	
 	public JedisCluster getJedisCluster(Object key){
-		JedisCluster val = context.get(key);
+		JedisCluster val = connectMap.get(key);
 		if(val==null){
 			JedisCluster jc = new JedisCluster(jedisClusterNodes);
-			context.put(key, jc);
+			connectMap.put(key, jc);
 		}
-		return context.get(key);
+		return connectMap.get(key);
 	}
 	
 	public void releaseRedisConnector(Object key){
-		JedisCluster jc = context.remove(key);
+		JedisCluster jc = connectMap.remove(key);
 		if(jc!=null){
 			try {
 				jc.close();

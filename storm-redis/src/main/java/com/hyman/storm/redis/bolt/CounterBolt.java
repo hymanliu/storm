@@ -1,7 +1,6 @@
 package com.hyman.storm.redis.bolt;
 
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.BasicOutputCollector;
@@ -16,6 +15,8 @@ import redis.clients.jedis.JedisCluster;
 
 public class CounterBolt extends BaseBasicBolt {
 	
+	
+//	private JedisCluster jedis = null;
 	private Jedis jedis = null;
 	
 	private static final long serialVersionUID = -5508421065181891596L;
@@ -23,6 +24,7 @@ public class CounterBolt extends BaseBasicBolt {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void prepare(Map stormConf, TopologyContext context) {
+//		jedis = RedisClusterContext.getInstance().getJedisCluster(this);
 		jedis = RedisContext.getInstance().getJedis(this);
 	}
 
@@ -41,6 +43,7 @@ public class CounterBolt extends BaseBasicBolt {
 	public void cleanup() {
 		String num = jedis.get("msg");
 		System.out.println("total message----------:"+num);
+//		RedisClusterContext.getInstance().releaseRedisConnector(this);
 		RedisContext.getInstance().releaseRedisConnector(this);
 	}
 
